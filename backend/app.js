@@ -8,6 +8,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+<<<<<<< HEAD
 // Sync DB
 (async () => {
   try {
@@ -17,6 +18,10 @@ app.use(bodyParser.json());
   } catch (error) {
     console.error('❌ Database connection failed:', error);
   }
+=======
+(async () => {
+  await sequelize.sync();
+>>>>>>> 420d191a086951f46a4e91548e1034e2b5456ca8
 })();
 
 // 📝 Sign Up API
@@ -36,10 +41,22 @@ app.post('/signin', async (req, res) => {
     const { rollNumber, password } = req.body;
     const user = await User.findOne({ where: { rollNumber } });
 
+<<<<<<< HEAD
     if (!user) return res.status(401).json({ message: 'Invalid roll number' });
     if (user.password !== password) return res.status(401).json({ message: 'Invalid password' });
 
     res.status(200).json({ message: 'Sign in successful', user });
+=======
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid roll number' });
+    }
+
+    if (user.password !== password) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+
+    res.status(200).json({ message: 'Sign in successful', user }); // optionally return user data
+>>>>>>> 420d191a086951f46a4e91548e1034e2b5456ca8
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -49,6 +66,7 @@ app.post('/signin', async (req, res) => {
 app.get('/all-data', async (req, res) => {
   try {
     const users = await User.findAll();
+<<<<<<< HEAD
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -93,6 +111,9 @@ app.delete('/user/:rollNumber', async (req, res) => {
 
     await user.destroy();
     res.status(200).json({ message: 'User deleted successfully' });
+=======
+    res.status(200).json(users); // returns all data
+>>>>>>> 420d191a086951f46a4e91548e1034e2b5456ca8
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
